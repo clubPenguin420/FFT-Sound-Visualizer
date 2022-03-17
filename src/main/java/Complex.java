@@ -1,8 +1,3 @@
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-
 public class Complex{
     private double re;   // the real part
     private double im;   // the imaginary part
