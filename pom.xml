@@ -23,11 +23,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.GitHub.sh0nk</groupId>
-            <artifactId>matplotlib4j</artifactId>
-            <version>0.5.0</version>
-        </dependency>
-        <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
         </dependency>
@@ -369,10 +364,22 @@
     </dependencies>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <lwjgl.version>3.3.1</lwjgl.version>
         <lwjgl.natives>natives-windows</lwjgl.natives>
     </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

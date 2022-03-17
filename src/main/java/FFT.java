@@ -1,7 +1,5 @@
 import java.io.IOException;
-import java.util.Arrays;
 import java.io.FileWriter;
-import com.github.sh0nk.matplotlib4j.*;
 
 public class FFT {
     static double max = 0.0;
