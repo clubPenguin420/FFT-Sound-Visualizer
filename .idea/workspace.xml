@@ -10,6 +10,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -25,9 +32,10 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lwjgl" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.Renderer">
     <configuration name="FFT" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -38,8 +46,11 @@
       </method>
     </configuration>
     <configuration name="Renderer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Renderer" />
-      <module name="soundrecorder" />
+      <module name="Sound-recorder" />
+      <option name="PROGRAM_PARAMETERS" value="-XstartOnFirstThread" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -55,6 +66,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.FFT" />
+      <item itemvalue="Application.Renderer" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Renderer" />
@@ -73,7 +88,9 @@
       <workItem from="1647538198439" duration="409000" />
       <workItem from="1647538711143" duration="258000" />
       <workItem from="1647538986603" duration="1103000" />
-      <workItem from="1647540389992" duration="2137000" />
+      <workItem from="1647540389992" duration="2740000" />
+      <workItem from="1647887309205" duration="1212000" />
+      <workItem from="1648056523410" duration="5010000" />
     </task>
     <servers />
   </component>

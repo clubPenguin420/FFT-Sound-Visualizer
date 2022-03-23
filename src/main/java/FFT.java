@@ -3,21 +3,17 @@ import java.io.FileWriter;
 
 public class FFT {
     static double max = 0.0;
-    public static void main(String[] args) throws IllegalArgumentException, IOException {
+    public static void main(String[] args) throws IllegalArgumentException {
 
         double period = 2*Math.PI;
         Complex[] data = generate(4096, 0, period);
-        FileWriter write = new FileWriter("inputData.txt");
+
         int n = 4;
         Complex[] x = new Complex[n];
 
         // original data
         for (int i = 0; i < n; i++) {
             x[i] = new Complex(i+1, i+1);
-        }
-        for (Complex num : data) {
-//            System.out.println(num);
-            write.write(num.toString() + "\n");
         }
         System.out.println("Num of samples: " + data.length);
         Complex[] freq = fft(data);
