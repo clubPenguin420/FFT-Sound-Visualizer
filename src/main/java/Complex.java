@@ -11,8 +11,6 @@ public class Complex{
 
     // return a string representation of the invoking Complex object
     public String toString() {
-//        double real = (Math.abs(re) > ep) ? re : 0;
-//        double img = (Math.abs(im) > ep) ? im : 0;
         if (im == 0) return String.format("%f.4", re) + "";
         if (re == 0) return String.format("%f.4", im) + "i";
         if (im < 0) return String.format("%f.4",re) + " - " + String.format("%f.4", (-im)) + "i";
@@ -53,11 +51,6 @@ public class Complex{
         return new Complex(real, imag);
     }
 
-    // return a new object whose value is (this * alpha)
-    public Complex scale(double alpha) {
-        return new Complex(alpha * re, alpha * im);
-    }
-
     // return a new Complex object whose value is the conjugate of this
     public Complex conjugate() {
         return new Complex(re, -im);
@@ -78,27 +71,6 @@ public class Complex{
         Complex a = this;
         return a.times(b.reciprocal());
     }
-
-    // return a new Complex object whose value is the complex exponential of this
-    public Complex exp() {
-        return new Complex(Math.exp(re) * Math.cos(im), Math.exp(re) * Math.sin(im));
-    }
-
-    // return a new Complex object whose value is the complex sine of this
-    public Complex sin() {
-        return new Complex(Math.sin(re) * Math.cosh(im), Math.cos(re) * Math.sinh(im));
-    }
-
-    // return a new Complex object whose value is the complex cosine of this
-    public Complex cos() {
-        return new Complex(Math.cos(re) * Math.cosh(im), -Math.sin(re) * Math.sinh(im));
-    }
-
-    // return a new Complex object whose value is the complex tangent of this
-    public Complex tan() {
-        return sin().divides(cos());
-    }
-
 
 
     // a static version of plus
@@ -134,7 +106,6 @@ public class Complex{
         System.out.println("(a / b) * b  = " + a.divides(b).times(b));
         System.out.println("conj(a)      = " + a.conjugate());
         System.out.println("|a|          = " + a.abs());
-        System.out.println("tan(a)       = " + a.tan());
     }
 
 }
