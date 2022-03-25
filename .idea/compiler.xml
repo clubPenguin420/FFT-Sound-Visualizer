@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Sound-recorder" />
+        <module name="FFT-Sound-Visualizer" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
