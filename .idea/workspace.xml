@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bba8c795-51b5-4df1-b1d4-6664bdfaf45b" name="Changes" comment="" />
+    <list default="true" id="bba8c795-51b5-4df1-b1d4-6664bdfaf45b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hs_err_pid15340.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ImPlotExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ImPlotExample.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,7 +76,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Testy" />
-      <module name="Sound-recorder" />
+      <module name="FFT-Sound-Visualizer" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -118,6 +124,8 @@
       <workItem from="1648076088712" duration="680000" />
       <workItem from="1648171561033" duration="3497000" />
       <workItem from="1648229288371" duration="4360000" />
+      <workItem from="1648244104452" duration="601000" />
+      <workItem from="1648519819104" duration="2394000" />
     </task>
     <servers />
   </component>

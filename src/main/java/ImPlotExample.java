@@ -13,29 +13,30 @@ public class ImPlotExample {
     static double ub = 2*Math.PI;
     static int terms = 32;
 
-    private static Double[] xs = new Double[]{};
-    private static Double[] ys = new Double[]{};
+    public static Double[] xs = new Double[]{};
+    public static Double[] ys = new Double[]{};
 
     static {
         ImPlot.createContext();
     }
 
     public static void show(ImBoolean showImPlotWindow) {
-        ImGui.setNextWindowSize(500, 400, ImGuiCond.Once);
+        generate(terms, lb, ub);
+        ImGui.setNextWindowSize(800, 600, ImGuiCond.Once);
         ImGui.setNextWindowPos(ImGui.getMainViewport().getPosX() + 100, ImGui.getMainViewport().getPosY() + 100, ImGuiCond.Once);
-        if (ImGui.begin("ImPlot Demo", showImPlotWindow)) {
-            ImGui.text("This a demo for ImPlot");
+        if (ImGui.begin("Fourier Analysis", showImPlotWindow)) {
+//            ImGui.text("This a demo for ImPlot");
 
             ImGui.alignTextToFramePadding();
 
-            if (ImPlot.beginPlot("Example Plot")) {
-                ImPlot.plotLine("Line", xs, ys);
-                ImPlot.plotBars("Bars", xs, ys);
+            if (ImPlot.beginPlot("Time Domain")) {
+                ImPlot.plotLine("Audio Wave", xs, ys);
+//                ImPlot.plotBars("Bars", xs, ys);
                 ImPlot.endPlot();
             }
 
-            if (ImPlot.beginPlot("Example Scatterplot")) {
-                ImPlot.plotScatter("Scatter", xs, ys);
+            if (ImPlot.beginPlot("Frequency Domain")) {
+                ImPlot.plotLine("Frequencies", xs, ys);
                 ImPlot.endPlot();
             }
         }
@@ -43,14 +44,12 @@ public class ImPlotExample {
         ImGui.end();
     }
 
-    public static Double[] generate(int terms, double lb, double ub) {
-        Double[] data = new Double[terms];
+    public static void generate(int terms, double lb, double ub) {
         double range = ub - lb;
-        double i = 0;
+        double i = lb;
         for(int x = 0; x < terms; i += range/terms, x++) {
             xs[x] = i;
-            ys[x] = (Math.sin(i));
+            ys[x] = Math.sin(i);
         }
-        return data;
     }
 }

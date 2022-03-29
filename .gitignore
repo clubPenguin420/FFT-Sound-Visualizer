@@ -1,5 +1,5 @@
 /target
 /lwjgl
-.idea
 /target/
 /.idea/
+*.log
