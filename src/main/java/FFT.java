@@ -29,7 +29,7 @@ public class FFT {
         double range = ub - lb;
         double i = 0;
         for(int x = 0; x < terms; i += range/terms, x++) {
-            data[x] = new Complex((4/Math.PI)*(Math.sin(i) + Math.sin(3 * i)/3 + Math.sin(5 * i)/5 + Math.sin(7 * i)/7), 0);
+            data[x] = new Complex((4/Math.PI)*(Math.sin(i) + Math.sin(3*i)/3 + Math.sin(5*i)/5 + Math.sin(7*i)/7) + Math.sin(9*i)/9 + Math.sin(11*i)/11, 0);
         }
         return data;
     }
@@ -39,9 +39,9 @@ public class FFT {
         if(n == 1) {
             return new Complex[]{data[0]};
         }
-        else if(n % 2 != 0) {
-            throw new IllegalArgumentException("Not a power of 2 you fat cunt");
-        }
+//        else if(n % 2 == 0) {
+//            throw new IllegalArgumentException("Not a power of 2 you fat cunt");
+//        }
 
         Complex[] evenSeq = new Complex[n / 2];
         for(int i = 0; i < evenSeq.length; ++i) {
@@ -69,39 +69,4 @@ public class FFT {
         return freq;
     }
 
-//    public static Complex[] fft(Complex[] x) {
-//        int n = x.length;
-//
-//        // base case
-//        if (n == 1) return new Complex[] { x[0] };
-//
-//        // radix 2 Cooley-Tukey FFT
-//        if (n % 2 != 0) {
-//            throw new IllegalArgumentException("n is not a power of 2");
-//        }
-//
-//        // compute FFT of even terms
-//        Complex[] even = new Complex[n/2];
-//        for (int k = 0; k < n/2; k++) {
-//            even[k] = x[2*k];
-//        }
-//        Complex[] evenFFT = fft(even);
-//
-//        // compute FFT of odd terms
-//        Complex[] odd  = even;  // reuse the array (to avoid n log n space)
-//        for (int k = 0; k < n/2; k++) {
-//            odd[k] = x[2*k + 1];
-//        }
-//        Complex[] oddFFT = fft(odd);
-//
-//        // combine
-//        Complex[] y = new Complex[n];
-//        for (int k = 0; k < n/2; k++) {
-//            double kth = -2 * k * Math.PI / n;
-//            Complex wk = new Complex(Math.cos(kth), Math.sin(kth));
-//            y[k]       = evenFFT[k].plus (wk.times(oddFFT[k]));
-//            y[k + n/2] = evenFFT[k].minus(wk.times(oddFFT[k]));
-//        }
-//        return y;
-//    }
 }
