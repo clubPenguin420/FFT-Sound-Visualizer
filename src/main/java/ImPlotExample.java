@@ -1,3 +1,4 @@
+import imgui.ImVec4;
 import imgui.extension.implot.ImPlot;
 import imgui.flag.ImGuiCond;
 import imgui.internal.ImGui;
@@ -14,8 +15,8 @@ public class ImPlotExample {
     public static Double[] xd = new Double[terms];
     public static Double[] yd = new Double[terms];
 
-    public static Double[] xf = new Double[terms];
-    public static Double[] yf = new Double[terms];
+    public static Double[] xf = new Double[terms/2];
+    public static Double[] yf = new Double[terms/2];
 
     static {
         ImPlot.createContext();
@@ -24,7 +25,7 @@ public class ImPlotExample {
     public static void show(ImBoolean showImPlotWindow) {
 //        generate(terms, lb, ub);
         convertData(FFT.generate(terms, lb, ub), xd, yd);
-        convertData(FFT.fft(FFT.generate(terms, lb, ub)), xf, yf);
+        formatFFT(FFT.fft(FFT.generate(terms, lb, ub)), xf, yf);
 //        yf = formatFFTData(FFT.fft(FFT.generate(terms, lb, ub)));
         ImGui.setNextWindowSize(900, 700, ImGuiCond.Once);
         ImGui.setNextWindowPos(ImGui.getMainViewport().getPosX(), ImGui.getMainViewport().getPosY(), ImGuiCond.Once);
@@ -41,6 +42,7 @@ public class ImPlotExample {
 
             if (ImPlot.beginPlot("Frequency Domain")) {
                 ImPlot.plotLine("Frequencies", xf, yf);
+//                ImPlot.dragLineX("bitch", 0.0, true, );
                 ImPlot.endPlot();
             }
         }
@@ -68,15 +70,29 @@ public class ImPlotExample {
         }
     }
 
-    public static Double[] formatFFTData(Complex[] cdata) {
-        convertData(cdata, xf, yf);
-        Double[] data = new Double[terms/2];
-        System.arraycopy(yf, 0, data, 0, data.length);
-        Double[] newX = new Double[terms/2];
-        for(int i = 0; i < data.length; ++i) {
-            newX[i] = (double)i;
+    public static void formatFFT(Complex[] cdata, Double[] x, Double[] y) {
+        int i = 0;
+        double j = 0;
+        for(Complex num : cdata) {
+            if(i > terms/2 - 1) {
+                break;
+            }
+            x[i] = j;
+            y[i] = num.re();
+            ++i;
+            j += (ub - lb) / terms;
         }
-        xf = newX;
-        return data;
     }
+
+//    public static Double[] formatFFTData(Complex[] cdata) {
+//        convertData(cdata, xf, yf);
+//        Double[] data = new Double[terms/2];
+//        System.arraycopy(yf, 0, data, 0, data.length);
+//        Double[] newX = new Double[terms/2];
+//        for(int i = 0; i < data.length; ++i) {
+//            newX[i] = (double)i;
+//        }
+//        xf = newX;
+//        return data;
+//    }
 }
