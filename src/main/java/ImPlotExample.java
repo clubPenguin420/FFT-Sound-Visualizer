@@ -11,6 +11,8 @@ public class ImPlotExample {
     static double lb = -2*Math.PI;
     static double ub = 2*Math.PI;
     static int terms = 4096;
+    static ImBoolean showDemo = new ImBoolean(false);
+    static ImVec4 color = new ImVec4();
 
     public static Double[] xd = new Double[terms];
     public static Double[] yd = new Double[terms];
@@ -42,8 +44,12 @@ public class ImPlotExample {
 
             if (ImPlot.beginPlot("Frequency Domain")) {
                 ImPlot.plotLine("Frequencies", xf, yf);
-//                ImPlot.dragLineX("bitch", 0.0, true, );
+                ImPlot.dragLineX("bitch", 20, true, color, 1);
                 ImPlot.endPlot();
+            }
+
+            if (showDemo.get()) {
+                ImPlot.showDemoWindow(showDemo);
             }
         }
 
