@@ -4,10 +4,6 @@ import imgui.flag.ImGuiCond;
 import imgui.internal.ImGui;
 import imgui.type.ImBoolean;
 
-import java.awt.Desktop;
-import java.net.URI;
-import java.util.Collections;
-
 public class ImPlotExample {
     static double lb = -2*Math.PI;
     static double ub = 2*Math.PI;
@@ -112,15 +108,5 @@ public class ImPlotExample {
         }
     }
 
-//    public static Double[] formatFFTData(Complex[] cdata) {
-//        convertData(cdata, xf, yf);
-//        Double[] data = new Double[terms/2];
-//        System.arraycopy(yf, 0, data, 0, data.length);
-//        Double[] newX = new Double[terms/2];
-//        for(int i = 0; i < data.length; ++i) {
-//            newX[i] = (double)i;
-//        }
-//        xf = newX;
-//        return data;
-//    }
+
 }
