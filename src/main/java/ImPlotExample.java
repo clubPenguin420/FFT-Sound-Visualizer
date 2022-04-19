@@ -103,8 +103,8 @@ public class ImPlotExample {
             x[i] = j;
             y[i] = num.re();
             ++i;
-            j += (ub - lb) / terms;
-//            j++;
+//            j += (ub - lb) / terms;
+            j++;
         }
     }
 
