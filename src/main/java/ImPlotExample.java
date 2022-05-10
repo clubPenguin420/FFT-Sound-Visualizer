@@ -4,14 +4,11 @@ import imgui.flag.ImGuiCond;
 import imgui.internal.ImGui;
 import imgui.type.ImBoolean;
 
-import java.awt.Desktop;
-import java.net.URI;
-
 public class ImPlotExample {
     static double lb = -2*Math.PI;
     static double ub = 2*Math.PI;
     static int terms = 4096;
-    static ImBoolean showDemo = new ImBoolean(false);
+    static ImBoolean showDemo = new ImBoolean(true);
     static ImVec4 color = new ImVec4();
 
     public static Double[] xd = new Double[terms];
@@ -44,18 +41,38 @@ public class ImPlotExample {
 
             if (ImPlot.beginPlot("Frequency Domain")) {
                 ImPlot.plotLine("Frequencies", xf, yf);
-                ImPlot.dragLineX("bitch", 20, true, color, 1);
                 ImPlot.endPlot();
             }
 
             if (showDemo.get()) {
                 ImPlot.showDemoWindow(showDemo);
+                ImGui.showDemoWindow(showDemo);
             }
+            ImGui.text("Top 10 frequencies: ");
+            sort();
+            ImGui.text(String.format("%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n", xf[0], xf[1], xf[2], xf[3], xf[4], xf[5], xf[6], xf[7], xf[8], xf[9]));
         }
 
         ImGui.end();
     }
 
+    public static void sort()
+    {
+        int n = xf.length;
+        for (int i = 1; i < n; ++i) {
+            Double key = yf[i];
+            int j = i - 1;
+
+            /* Move elements of arr[0..i-1], that are
+               greater than key, to one position ahead
+               of their current position */
+            while (j >= 0 && yf[j] < key) {
+                xf[j + 1] = xf[j];
+                j = j - 1;
+            }
+            xf[j + 1] = key;
+        }
+    }
     public static void generate(int terms, double lb, double ub) {
         double range = ub - lb;
         double i = lb;
@@ -86,19 +103,10 @@ public class ImPlotExample {
             x[i] = j;
             y[i] = num.re();
             ++i;
-            j += (ub - lb) / terms;
+//            j += (ub - lb) / terms;
+            j++;
         }
     }
 
-//    public static Double[] formatFFTData(Complex[] cdata) {
-//        convertData(cdata, xf, yf);
-//        Double[] data = new Double[terms/2];
-//        System.arraycopy(yf, 0, data, 0, data.length);
-//        Double[] newX = new Double[terms/2];
-//        for(int i = 0; i < data.length; ++i) {
-//            newX[i] = (double)i;
-//        }
-//        xf = newX;
-//        return data;
-//    }
+
 }

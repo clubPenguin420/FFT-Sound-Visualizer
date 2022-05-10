@@ -29,7 +29,7 @@ public class FFT {
         double range = ub - lb;
         double i = 0;
         for(int x = 0; x < terms; i += range/terms, x++) {
-            data[x] = new Complex((4/Math.PI)*(Math.sin(i) + Math.sin(3*i)/3 + Math.sin(5*i)/5 + Math.sin(7*i)/7) + Math.sin(9*i)/9 + Math.sin(11*i)/11, 0);
+            data[x] = new Complex((4/Math.PI)*(Math.sin(1000*i) + Math.sin(i) + Math.sin(3*i)/3 + Math.sin(5*i)/5 + Math.sin(7*i)/7) + Math.sin(9*i)/9 + Math.sin(11*i)/11, 0);
         }
         return data;
     }

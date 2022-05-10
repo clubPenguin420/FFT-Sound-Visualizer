@@ -8,7 +8,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class JavaSoundRecorder {
+public class  JavaSoundRecorder {
 
     public static void main(String[] args) {
 
