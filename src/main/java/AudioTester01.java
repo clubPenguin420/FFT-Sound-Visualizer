@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.Arrays;
 import javax.sound.sampled.*;
 
 public class AudioTester01
@@ -15,14 +16,12 @@ public class AudioTester01
     AudioInputStream audioInputStream;
     SourceDataLine sourceDataLine;
 
-    public static void main(
-            String args[]){
+    public static void main(String args[]){
         new AudioTester01();
-    }//end main
+    }
 
-    public AudioTester01(){//constructor
-        final JButton captureBtn =
-                new JButton("Capture");
+    public AudioTester01(){
+        final JButton captureBtn = new JButton("Capture");
         final JButton stopBtn =
                 new JButton("Stop");
         final JButton playBtn =
@@ -133,6 +132,7 @@ public class AudioTester01
                             toByteArray();
             //Get an input stream on the
             // byte array containing the data
+            System.out.println(Arrays.toString(audioData));
             InputStream byteArrayInputStream
                     = new ByteArrayInputStream(
                     audioData);
