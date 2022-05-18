@@ -8,20 +8,17 @@ import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class ImPlotExample {
-    static double lb = -2*Math.PI;
-    static double ub = 2*Math.PI;
-    static int terms = 4096;
-    static ImBoolean showDemo = new ImBoolean(true);
-    static ImVec4 color = new ImVec4();
 
-    public static Double[] xd = new Double[terms];
-    public static Double[] yd = new Double[terms];
+    public static Double[] xd;
+    public static Double[] yd;
+    public static byte[] audioData;
 
-    public static Double[] xf = new Double[terms/2];
-    public static Double[] yf = new Double[terms/2];
+    public static Double[] xf;
+    public static Double[] yf;
     static boolean stopCapture = false;
     static ByteArrayOutputStream
             byteArrayOutputStream;
@@ -36,8 +33,6 @@ public class ImPlotExample {
 
     public static void show(ImBoolean showImPlotWindow) {
 //        generate(terms, lb, ub);
-        convertData(FFT.generate(terms, lb, ub), xd, yd);
-        formatFFT(FFT.fft(FFT.generate(terms, lb, ub)), xf, yf);
 //        yf = formatFFTData(FFT.fft(FFT.generate(terms, lb, ub)));
         ImGui.setNextWindowSize(900, 700, ImGuiCond.Once);
         ImGui.setNextWindowPos(ImGui.getMainViewport().getPosX(), ImGui.getMainViewport().getPosY(), ImGuiCond.Once);
@@ -48,25 +43,53 @@ public class ImPlotExample {
 
             if(ImGui.button("Record")) {
 //                System.out.println("Record");
+                stopCapture = false;
                 captureAudio();
             }
             if(ImGui.button("Stop Record")) {
                 stopCapture = true;
             }
             if(ImGui.button("Analyse")) {
-                playAudio();
+//                playAudio();
+                audioData =
+                        byteArrayOutputStream.
+                                toByteArray();
+
+                int len = audioData.length;
+                len = (int) Math.pow(2, Math.ceil(Math.log(len)/Math.log(2)));
+//                System.out.println(len);
+                xd = new Double[len];
+                yd = new Double[len];
+                xf = new Double[(len/2)];
+                yf = new Double[(len/2)];
+                audioData = Arrays.copyOf(audioData, len);
+                convertData(audioData, xd, yd, len);
+//                System.out.println(Arrays.toString(xd));
+                Double[] results = FFT.fft(yd);
+                System.out.println(Arrays.toString(results));
+                formatFFT(results, xf, yf);
+//                System.out.println(Arrays.toString(xf));
             }
 
+            ImPlot.fitNextPlotAxes();
             if (ImPlot.beginPlot("Time Domain")) {
+                    if(xd != null) {
                 ImPlot.plotLine("Audio Wave", xd, yd);
 //                ImPlot.plotBars("Bars", xs, ys);
+
+                    }
                 ImPlot.endPlot();
             }
 
+            ImPlot.fitNextPlotAxes();
             if (ImPlot.beginPlot("Frequency Domain")) {
+                    if(xf != null) {
                 ImPlot.plotLine("Frequencies", xf, yf);
+                    }
                 ImPlot.endPlot();
             }
+
+
 
 
 //            if (showDemo.get()) {
@@ -107,29 +130,30 @@ public class ImPlotExample {
         }
     }
 
-    public static void convertData(Complex[] cdata, Double[] x, Double[] y) {
+    public static void convertData(byte[] cdata, Double[] x, Double[] y, int len) {
         int i = 0;
-        double j = lb;
-        for(Complex num : cdata) {
-            x[i] = j;
-            y[i] = num.re();
-            ++i;
-            j += (ub - lb) / terms;
+        double j = 0;
+        for(byte data : cdata) {
+                y[i] = (double) data;
+                x[i] = (double) i;
+                i += 1;
+                j++;
+
         }
     }
 
-    public static void formatFFT(Complex[] cdata, Double[] x, Double[] y) {
+    public static void formatFFT(Double[] cdata, Double[] x, Double[] y) {
         int i = 0;
         double j = 0;
-        for(Complex num : cdata) {
-            if(i > terms/2 - 1) {
+        for(double num : cdata) {
+            if(i > cdata.length/2 - 1) {
                 break;
             }
-            x[i] = j;
-            y[i] = num.re();
+            xf[i] = j;
+            yf[i] = num;
             ++i;
-//            j += (ub - lb) / terms;
-            j++;
+            j += i * 8000 / cdata.length;
+//            j++;
         }
     }
 
@@ -171,12 +195,23 @@ public class ImPlotExample {
             // playback.
             //Get the previously-saved data
             // into a byte array object.
-            byte audioData[] =
+            audioData =
                     byteArrayOutputStream.
                             toByteArray();
+
+            int len = audioData.length;
+            len = (int)Math.pow(2, Math.ceil(Math.log(len)/Math.log(2)));
+            xd = new Double[len];
+            yd = new Double[len];
+            xf = new Double[(len/2)];
+            yf = new Double[(len/2)];
+            convertData(audioData, xd, yd, len);
+            formatFFT(FFT.fft(yd), xf, yf);
+            System.out.println(Arrays.toString(xd));
+
             //Get an input stream on the
             // byte array containing the data
-            System.out.println(Arrays.toString(audioData));
+//            System.out.println(Arrays.toString(audioData));
             InputStream byteArrayInputStream
                     = new ByteArrayInputStream(
                     audioData);
@@ -309,6 +344,5 @@ public class ImPlotExample {
             }//end catch
         }//end run
     }//end inner class PlayThread
-
 
 }

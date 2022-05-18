@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bba8c795-51b5-4df1-b1d4-6664bdfaf45b" name="Changes" comment="" />
+    <list default="true" id="bba8c795-51b5-4df1-b1d4-6664bdfaf45b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/FFT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FFT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ImPlotExample.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ImPlotExample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FFT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FFT.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,9 +56,16 @@
     <option name="enabled" value="false" />
   </component>
   <component name="RunManager" selected="Application.Testy">
+    <configuration name="AudioTester01" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AudioTester01" />
+      <module name="FFT-Sound-Visualizer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FFT" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="FFT" />
-      <module name="soundrecorder" />
+      <module name="FFT-Sound-Visualizer" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -78,7 +91,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Testy" />
-      <module name="Sound-recorder" />
+      <module name="FFT-Sound-Visualizer" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -99,13 +112,15 @@
       <item itemvalue="Application.Renderer" />
       <item itemvalue="Application.Testy" />
       <item itemvalue="Application.ImPlotExample" />
+      <item itemvalue="Application.AudioTester01" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Testy" />
+        <item itemvalue="Application.FFT" />
+        <item itemvalue="Application.AudioTester01" />
         <item itemvalue="Application.ImPlotExample" />
         <item itemvalue="Application.Renderer" />
-        <item itemvalue="Application.FFT" />
       </list>
     </recent_temporary>
   </component>
@@ -137,6 +152,12 @@
       <workItem from="1650389258074" duration="2508000" />
       <workItem from="1650562623642" duration="1570000" />
       <workItem from="1650907643892" duration="1231000" />
+      <workItem from="1652304500967" duration="595000" />
+      <workItem from="1652414163809" duration="4000" />
+      <workItem from="1652572099503" duration="2229000" />
+      <workItem from="1652627281950" duration="5207000" />
+      <workItem from="1652751892958" duration="667000" />
+      <workItem from="1652840742565" duration="7571000" />
     </task>
     <servers />
   </component>
@@ -153,5 +174,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
