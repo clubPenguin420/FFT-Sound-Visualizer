@@ -1,95 +1,161 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.Arrays;
+import imgui.extension.implot.ImPlot;
+import imgui.flag.ImGuiCond;
+import imgui.internal.ImGui;
+import imgui.type.ImBoolean;
+
 import javax.sound.sampled.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Arrays;
 
-public class AudioTester01
-        extends JFrame{
+public class SoundAnalyzer {
 
-    boolean stopCapture = false;
-    ByteArrayOutputStream
+    public static Double[] xd;
+    public static Double[] yd;
+    public static byte[] audioData;
+
+    public static Double[] xf;
+    public static Double[] yf;
+    static boolean stopCapture = false;
+    static ByteArrayOutputStream
             byteArrayOutputStream;
-    AudioFormat audioFormat;
-    TargetDataLine targetDataLine;
-    AudioInputStream audioInputStream;
-    SourceDataLine sourceDataLine;
+    static AudioFormat audioFormat;
+    static TargetDataLine targetDataLine;
+    static AudioInputStream audioInputStream;
+    static SourceDataLine sourceDataLine;
 
-    public static void main(String args[]){
-        new AudioTester01();
+    static {
+        ImPlot.createContext();
     }
 
-    public AudioTester01(){
-        final JButton captureBtn = new JButton("Capture");
-        final JButton stopBtn =
-                new JButton("Stop");
-        final JButton playBtn =
-                new JButton("Playback");
+    public static void show(ImBoolean showImPlotWindow) {
+//        generate(terms, lb, ub);
+//        yf = formatFFTData(FFT.fft(FFT.generate(terms, lb, ub)));
+        ImGui.setNextWindowSize(900, 700, ImGuiCond.Once);
+        ImGui.setNextWindowPos(ImGui.getMainViewport().getPosX(), ImGui.getMainViewport().getPosY(), ImGuiCond.Once);
+        if (ImGui.begin("Fourier Analysis", showImPlotWindow)) {
+//            ImGui.text("This a demo for ImPlot");
 
-        captureBtn.setEnabled(true);
-        stopBtn.setEnabled(false);
-        playBtn.setEnabled(false);
+            ImGui.alignTextToFramePadding();
 
-        //Register anonymous listeners
-        captureBtn.addActionListener(
-                new ActionListener(){
-                    public void actionPerformed(
-                            ActionEvent e){
-                        captureBtn.setEnabled(false);
-                        stopBtn.setEnabled(true);
-                        playBtn.setEnabled(false);
-                        //Capture input data from the
-                        // microphone until the Stop
-                        // button is clicked.
-                        captureAudio();
-                    }//end actionPerformed
-                }//end ActionListener
-        );//end addActionListener()
-        getContentPane().add(captureBtn);
+            if(ImGui.button("Record")) {
+//                System.out.println("Record");
+                stopCapture = false;
+                captureAudio();
+            }
+            if(ImGui.button("Stop Record")) {
+                stopCapture = true;
+            }
+            if(ImGui.button("Analyse")) {
+//                playAudio();
+                audioData =
+                        byteArrayOutputStream.
+                                toByteArray();
 
-        stopBtn.addActionListener(
-                new ActionListener(){
-                    public void actionPerformed(
-                            ActionEvent e){
-                        captureBtn.setEnabled(true);
-                        stopBtn.setEnabled(false);
-                        playBtn.setEnabled(true);
-                        //Terminate the capturing of
-                        // input data from the
-                        // microphone.
-                        stopCapture = true;
-                    }//end actionPerformed
-                }//end ActionListener
-        );//end addActionListener()
-        getContentPane().add(stopBtn);
+                int len = audioData.length;
+                len = (int) Math.pow(2, Math.ceil(Math.log(len)/Math.log(2)));
+//                System.out.println(len);
+                xd = new Double[len];
+                yd = new Double[len];
+                xf = new Double[(len/2)];
+                yf = new Double[(len/2)];
+                audioData = Arrays.copyOf(audioData, len);
+                convertData(audioData, xd, yd, len);
+//                System.out.println(Arrays.toString(xd));
+                Double[] results = FFT.fft(yd);
+                System.out.println(Arrays.toString(results));
+                formatFFT(results, xf, yf);
+//                System.out.println(Arrays.toString(xf));
+            }
 
-        playBtn.addActionListener(
-                new ActionListener(){
-                    public void actionPerformed(
-                            ActionEvent e){
-                        //Play back all of the data
-                        // that was saved during
-                        // capture.
-                        playAudio();
-                    }//end actionPerformed
-                }//end ActionListener
-        );//end addActionListener()
-        getContentPane().add(playBtn);
+            ImPlot.fitNextPlotAxes();
+            if (ImPlot.beginPlot("Time Domain")) {
+                    if(xd != null) {
+                ImPlot.plotLine("Audio Wave", xd, yd);
+//                ImPlot.plotBars("Bars", xs, ys);
 
-        getContentPane().setLayout(
-                new FlowLayout());
-        setTitle("Capture/Playback Demo");
-        setDefaultCloseOperation(
-                EXIT_ON_CLOSE);
-        setSize(250,70);
-        setVisible(true);
-    }//end constructor
+                    }
+                ImPlot.endPlot();
+            }
 
-    //This method captures audio input
-    // from a microphone and saves it in
-    // a ByteArrayOutputStream object.
-    private void captureAudio(){
+            ImPlot.fitNextPlotAxes();
+            if (ImPlot.beginPlot("Frequency Domain")) {
+                    if(xf != null) {
+                ImPlot.plotLine("Frequencies", xf, yf);
+                    }
+                ImPlot.endPlot();
+            }
+
+
+
+
+//            if (showDemo.get()) {
+//                ImPlot.showDemoWindow(showDemo);
+//                ImGui.showDemoWindow(showDemo);
+//            }
+//            ImGui.text("Top 10 frequencies: ");
+//            sort();
+//            ImGui.text(String.format("%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n%f.5\n", xf[0], xf[1], xf[2], xf[3], xf[4], xf[5], xf[6], xf[7], xf[8], xf[9]));
+        }
+
+        ImGui.end();
+    }
+
+    public static void sort()
+    {
+        int n = xf.length;
+        for (int i = 1; i < n; ++i) {
+            Double key = yf[i];
+            int j = i - 1;
+
+            /* Move elements of arr[0..i-1], that are
+               greater than key, to one position ahead
+               of their current position */
+            while (j >= 0 && yf[j] < key) {
+                xf[j + 1] = xf[j];
+                j = j - 1;
+            }
+            xf[j + 1] = key;
+        }
+    }
+    public static void generate(int terms, double lb, double ub) {
+        double range = ub - lb;
+        double i = lb;
+        for(int x = 0; x < terms; i += range/terms, x++) {
+            xd[x] = i;
+            yd[x] = Math.sin(i);
+        }
+    }
+
+    public static void convertData(byte[] cdata, Double[] x, Double[] y, int len) {
+        int i = 0;
+        double j = 0;
+        for(byte data : cdata) {
+                y[i] = (double) data;
+                x[i] = (double) i;
+                i += 1;
+                j++;
+
+        }
+    }
+
+    public static void formatFFT(Double[] cdata, Double[] x, Double[] y) {
+        int i = 0;
+        double j = 0;
+        for(double num : cdata) {
+            if(i > cdata.length/2 - 1) {
+                break;
+            }
+            xf[i] = j;
+            yf[i] = num;
+            ++i;
+            j += i * 8000 / cdata.length;
+//            j++;
+        }
+    }
+
+    private static void captureAudio(){
         try{
             //Get everything set up for
             // capture
@@ -121,18 +187,29 @@ public class AudioTester01
     //This method plays back the audio
     // data that has been saved in the
     // ByteArrayOutputStream
-    private void playAudio() {
+    private static void playAudio() {
         try{
             //Get everything set up for
             // playback.
             //Get the previously-saved data
             // into a byte array object.
-            byte audioData[] =
+            audioData =
                     byteArrayOutputStream.
                             toByteArray();
+
+            int len = audioData.length;
+            len = (int)Math.pow(2, Math.ceil(Math.log(len)/Math.log(2)));
+            xd = new Double[len];
+            yd = new Double[len];
+            xf = new Double[(len/2)];
+            yf = new Double[(len/2)];
+            convertData(audioData, xd, yd, len);
+            formatFFT(FFT.fft(yd), xf, yf);
+            System.out.println(Arrays.toString(xd));
+
             //Get an input stream on the
             // byte array containing the data
-            System.out.println(Arrays.toString(audioData));
+//            System.out.println(Arrays.toString(audioData));
             InputStream byteArrayInputStream
                     = new ByteArrayInputStream(
                     audioData);
@@ -176,7 +253,7 @@ public class AudioTester01
     // allowable parameter values, which
     // are shown in comments following
     // the declarations.
-    private AudioFormat getAudioFormat(){
+    private static AudioFormat getAudioFormat(){
         float sampleRate = 8000.0F;
         //8000,11025,16000,22050,44100
         int sampleSizeInBits = 16;
@@ -198,7 +275,7 @@ public class AudioTester01
 
     //Inner class to capture data from
 // microphone
-    class CaptureThread extends Thread{
+    static class CaptureThread extends Thread{
         //An arbitrary-size temporary holding
         // buffer
         byte tempBuffer[] = new byte[10000];
@@ -233,7 +310,7 @@ public class AudioTester01
     //===================================//
 //Inner class to play back the data
 // that was saved.
-    class PlayThread extends Thread{
+    static class PlayThread extends Thread{
         byte tempBuffer[] = new byte[10000];
 
         public void run(){
@@ -265,6 +342,5 @@ public class AudioTester01
             }//end catch
         }//end run
     }//end inner class PlayThread
-//===================================//
 
-}//end outer class AudioCapture01.java
+}
